@@ -25,16 +25,16 @@ begin
 
     SHORT_DELAY_DONE_SW <= sw(SHORT_DELAY_DONE_SW_BIT_INDEX);
 	LONG_DELAY_DONE_SW <= sw(LONG_DELAY_DONE_SW_BIT_INDEX);
-	FULL_SW
-	SAMPLE_SW
-	TRIGGER_SW
-	STORE_SW
+	FULL_SW <= sw(FULL_SW_BIT_INDEX);
+	SAMPLE_SW <= sw(SAMPLE_SW_BIT_INDEX);
+	TRIGGER_SW <= sw(TRIGGER_SW_BIT_INDEX);
+	STORE_SW <= sw(STORE_SW_BIT_INDEX);
 
-	TRIG_CH1_SW
-	TRIG_CH2_SW
+	TRIG_CH1_SW <= sw(TRIG_CH1_SW_BIT_INDEX);
+	TRIG_CH2_SW <= sw(TRIG_CH2_SW_BIT_INDEX);
 
-	SINGLE_SW
-	FORCED_SW
+	SINGLE_SW <= sw(SINGLE_MODE_SW_BIT_INDEX);
+	FORCED_SW <= sw(FORCED_MODE_SW_BIT_INDEX);
 	
 	BUSY_SW <= sw(AN7606_BUSY_SW_BIT_INDEX);
     
@@ -57,10 +57,12 @@ begin
 						if (SHORT_DELAY_DONE_SW = '1') then
 							state <= WAIT_FORCED;
 						end if;
-					when WAIT_FORCED =>
+					when WAIT_FORCED => -- button action, but wtf is that sw signal????
 					when SET_STORE_FLAG =>
+						state <= BEGIN_CONVST;
 					when BEGIN_CONVST =>
 					when CLEAR_STORE_FLAG =>
+						state <= BEGIN_CONVST;
 					when ASSERT_CONVST =>
 						if (SHORT_DELAY_DONE_SW = '1') then
 							state <= BUSY_0;
@@ -74,6 +76,13 @@ begin
 							state <= READ_CH1_LOW;
 						end if;
 					when READ_CH1_LOW =>
+						if (SHORT_DELAY_DONE_SW = '0') then
+							state <= READ_CH1_LOW;
+						elsif (STORE_SW = '0') then
+							state <= WRITE_CH1_TRIG;
+						else
+							state <= WRITE_CH1_BRAM;
+						end if;							
 					when WRITE_CH1_TRIG =>
 					when WRITE_CH1_BRAM =>
 					when READ_CH1_HIGH =>
@@ -83,6 +92,13 @@ begin
 					when RST_SHORT =>
 						state <= READ_CH2_LOW;
 					when READ_CH2_LOW =>
+						if (SHORT_DELAY_DONE_SW = '0') then
+							state <= READ_CH2_LOW;
+						elsif (STORE_SW = '0') then
+							state <= WRITE_CH2_TRIG;
+						else
+							state <= WRITE_CH2_BRAM;
+						end if;	
 					when WRITE_CH2_TRIG =>
 					when WRITE_CH2_BRAM =>
 					when READ_CH2_HIGH =>
@@ -90,7 +106,17 @@ begin
 							state <= WAIT_END_SAMP_INT;
 						end if;
 					when WAIT_END_SAMP_INT =>
+						if (SAMPLE_SW = '0') then
+							state <= WAIT_END_SAMP_INT;
+						elsif (FULL_SW and SAMPLE_SW = '1') then
+							state <= BRAM_FULL;
+						end if;
 					when BRAM_FULL =>
+						if (FORCED_SW = '1') then
+							state <= WAIT_FORCED;
+						else 
+							state <= CLEAR_STORE_FLAG;
+						end if;
 				end case;
 			end if;
 		end if;
