@@ -5,7 +5,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
--- use work.hdmi_package.all;
+use work.scopeToHdmi_package.all;
 
 
 package acquireToHDMI_package is

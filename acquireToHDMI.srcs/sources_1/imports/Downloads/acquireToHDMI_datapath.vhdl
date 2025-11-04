@@ -8,7 +8,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 use work.acquireToHDMI_Package.all;			
 use work.basicBuildingBlocks_package.all;		
-use work.hdmi_package.all;
+use work.scopeToHdmi_package.all;
 
 entity acquireToHDMI_datapath is
     PORT ( clk : in  STD_LOGIC;
