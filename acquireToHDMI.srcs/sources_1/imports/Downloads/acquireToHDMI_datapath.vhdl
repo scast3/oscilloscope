@@ -51,7 +51,7 @@ begin
 
     sw(STORE_INTO_BRAM_SW_BIT_INDEX) <= storeIntoBramFlag;
     
- 
+    
       
     vc: clk_wiz_0
         PORT MAP (
@@ -59,7 +59,55 @@ begin
             clk_out1 => videoClk,
             resetn => resetn,
             clk_out2 => videoClk5x);
+    
+    vsg: videoSignalGenerator
+        PORT MAP (clk => videoClk, 
+            resetn => resetn,
+            hs => hs_temp,
+            vs => vs_temp,
+            de => de_temp,
+            pixelHorz => pixelHorz,
+            pixelVert => pixelVert
+        );
+        
+    sf: scopeFace
+        PORT MAP (clk => videoClk,
+            resetn => resetn,
+            pixelHorz => pixelHorz,
+            pixelVert => pixelVert,
+            triggerTime => triggerTime,
+            triggerVolt => triggerVolt,
+            ch1 => ch1Wave,
+            ch1enb => '1',
+            ch2 => ch2Wave,
+            ch2enb => '1',
+            red => red,
+            green => green,
+            blue => blue
+        );
+                 
 
+    hdmi_inst: hdmi_tx_0
+        PORT MAP (
+            pix_clk => videoClk,
+            pix_clkx5 => videoClk5x,
+            rst => reset,
+            hsync => hs_temp,
+            vsync => vs_temp,
+            vde => de_temp,
+            pix_clk_locked => clkLocked,
+            red => red,
+            green => green,
+            blue => blue,
+            TMDS_DATA_P => tmdsDataP,
+            TMDS_DATA_N => tmdsDataN,
+            TMDS_CLK_P => tmdsClkP,
+            TMDS_CLK_N => tmdsClkN,
+            aux0_din => "0000",
+            aux1_din => "0000",
+            aux2_din => "0000",
+            ade => '0'
+        );
 
 
 end behavior;
