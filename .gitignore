@@ -1,0 +1,26 @@
+# General
+*~
+\#*
+.\#*
+
+# Vivado generated files and directories
+*.cache/
+*.runs/
+*.hw/
+*.sim/
+*.data/
+*.jou
+*.log
+*.xtp
+.Xil/
+.statistics/
+
+# Specific files generated within source directories that should be ignored
+# (e.g., within the .srcs directory if you keep sources there)
+# If your sources are outside the project directory, this may not be needed.
+*/.metadata/
+build/
+images/linux/
+pre-built/linux/
+
+*.xpr
