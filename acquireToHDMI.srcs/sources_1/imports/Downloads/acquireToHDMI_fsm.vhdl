@@ -16,15 +16,27 @@ end acquireToHDMI_fsm;
 
 architecture Behavioral of acquireToHDMI_fsm is
 
-	signal state: state_type;	-- define the state_type in your package file	
-	signal SHORT_DELAY_DONE_SW,: STD_LOGIC;
-	signal LONG_DELAY_DONE_SW,: STD_LOGIC;  
-    signal FORCED_MODE_SW, STORE_INTO_BRAM_SW, CH1_TRIGGER_SW: STD_LOGIC;
+	signal state: state_type;
+	signal SHORT_DELAY_DONE_SW, LONG_DELAY_DONE_SW: STD_LOGIC; 
+    signal FULL_SW, SAMPLE_SW, TRIGGER_SW, STORE_SW : STD_LOGIC;
+	signal TRIG_CH1_SW, TRIG_CH2_SW, SINGLE_SW, FORCED_SW, BUSY_SW : STD_LOGIC;
+
 begin
 
     SHORT_DELAY_DONE_SW <= sw(SHORT_DELAY_DONE_SW_BIT_INDEX);
 	LONG_DELAY_DONE_SW <= sw(LONG_DELAY_DONE_SW_BIT_INDEX);
-	BUSY_SW <= sw(BUSY_SW_BIT_INDEX);
+	FULL_SW
+	SAMPLE_SW
+	TRIGGER_SW
+	STORE_SW
+
+	TRIG_CH1_SW
+	TRIG_CH2_SW
+
+	SINGLE_SW
+	FORCED_SW
+	
+	BUSY_SW <= sw(AN7606_BUSY_SW_BIT_INDEX);
     
 	-------------------------------------------------------------------------------
 	-------------------------------------------------------------------------------
