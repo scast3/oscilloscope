@@ -14,8 +14,9 @@ package acquireToHDMI_package is
 -- Clock period definitions
 CONSTANT clk_period : time := 20 ns;			-- 50Mhz crystal input (XTL_IN).
 
--- You need to complete this
-type state_type is (RESET_STATE);
+type state_type is (RESET_STATE, LONG_DELAY, ADC_RST, WAIT_FORCED, SET_STORE_FLAG, BEGIN_CONVST, CLEAR_STORE_FLAG, 
+  ASSERT_CONVST, BUSY_0, BUSY_1, READ_CH1_LOW, WRITE_CH1_TRIG, WRITE_CH1_BRAM, READ_CH1_HIGH, RST_SHORT, 
+  READ_CH2_LOW, WRITE_CH2_TRIG, WRITE_CH2_BRAM, READ_CH2_HIGH, WAIT_END_SAMP_INT, BRAM_FULL);
 
 
 ---------------------------- CONTROL WORD -----------------------------
