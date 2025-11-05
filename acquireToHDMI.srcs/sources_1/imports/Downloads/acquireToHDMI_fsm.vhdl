@@ -57,10 +57,14 @@ begin
 						if (SHORT_DELAY_DONE_SW = '1') then
 							state <= WAIT_FORCED;
 						end if;
-					when WAIT_FORCED => -- button action, but wtf is that sw signal????
+					when WAIT_FORCED =>
+						if (SINGLE_SW = '1') then
+							state <= SET_STORE_FLAG;
+						end if;
 					when SET_STORE_FLAG =>
 						state <= BEGIN_CONVST;
 					when BEGIN_CONVST =>
+						state <= ASSERT_CONVST;
 					when CLEAR_STORE_FLAG =>
 						state <= BEGIN_CONVST;
 					when ASSERT_CONVST =>
@@ -84,7 +88,9 @@ begin
 							state <= WRITE_CH1_BRAM;
 						end if;							
 					when WRITE_CH1_TRIG =>
+						state <= READ_CH1_HIGH;
 					when WRITE_CH1_BRAM =>
+						state <= READ_CH1_HIGH;
 					when READ_CH1_HIGH =>
 						if (SHORT_DELAY_DONE_SW = '1') then
 							state <= RST_SHORT;
@@ -100,7 +106,9 @@ begin
 							state <= WRITE_CH2_BRAM;
 						end if;	
 					when WRITE_CH2_TRIG =>
+						state <= READ_CH2_HIGH;
 					when WRITE_CH2_BRAM =>
+						state <= READ_CH2_HIGH;
 					when READ_CH2_HIGH =>
 						if (SHORT_DELAY_DONE_SW = '1') then
 							state <= WAIT_END_SAMP_INT;
@@ -108,8 +116,17 @@ begin
 					when WAIT_END_SAMP_INT =>
 						if (SAMPLE_SW = '0') then
 							state <= WAIT_END_SAMP_INT;
-						elsif (FULL_SW and SAMPLE_SW = '1') then
-							state <= BRAM_FULL;
+						elsif (SAMPLE_SW = '0') then
+							if (FULL_SW = '1') then
+								state <= BRAM_FULL;
+							else -- full=0
+								if (FORCED_SW = '1') then
+									state <= BEGIN_CONVST;
+								elsif (STORE_SW ='0') then -- full = 0, forced = 0 row
+									state <= SET_STORE_FLAG;
+								else
+									state <= BEGIN_CONVST;
+								end if;
 						end if;
 					when BRAM_FULL =>
 						if (FORCED_SW = '1') then

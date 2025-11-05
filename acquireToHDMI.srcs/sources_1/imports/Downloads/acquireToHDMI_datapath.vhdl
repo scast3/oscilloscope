@@ -47,8 +47,11 @@ architecture behavior of acquireToHDMI_datapath is
     signal ch1, ch2: STD_LOGIC; -- is this logic or a slv???
     
     signal wrAddr : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    signal zeros_vec : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
 begin
+    zeros_vec <= (others => '0');
+
     reset <= not resetn;
     -- Simple SR Latch to assist FSM
     process(clk)
@@ -130,7 +133,7 @@ begin
         PORT MAP(clk=>clk,
             resetn => resetn,
             c => cw(DATA_STORAGE_COUNTER_CW_BIT_INDEX downto DATA_STORAGE_COUNTER_CW_BIT_INDEX-1),
-            d => others => '0',
+            d => zeros_vec,
             q => wrAddr
         );
     
@@ -148,7 +151,7 @@ begin
     ch1_compare_pixelV : genericCompare
         GENERIC MAP(16)
         PORT MAP(x => ch1_pixelV, 
-            y => pixelV, 
+            y => pixelVert, 
             g => open, 
             l => open,
             e => ch1

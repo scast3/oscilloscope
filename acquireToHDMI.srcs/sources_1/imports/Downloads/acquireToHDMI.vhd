@@ -52,7 +52,7 @@ begin
 
     
     
-    sw(SINGLE_FORCED_TRIGGER_SW_BIT_INDEX) <= buttonActivity(0);
+    sw(FORCED_MODE_SW_BIT_INDEX) <= btn(0);
     triggerCh2 <= sw(TRIG_CH2_SW_BIT_INDEX);
 
  	datapath_inst: acquireToHDMI_datapath 
