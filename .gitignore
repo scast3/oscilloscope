@@ -9,6 +9,8 @@
 *.hw/
 *.sim/
 *.data/
+*.gen/
+*.ip_user_files/
 *.jou
 *.log
 *.xtp
@@ -24,3 +26,4 @@ images/linux/
 pre-built/linux/
 
 *.xpr
+*.xci

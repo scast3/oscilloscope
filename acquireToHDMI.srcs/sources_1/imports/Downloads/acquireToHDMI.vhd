@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use work.acquireToHDMI_package.all;					-- include your library here with added components ac97, ac97cmd
 use work.scopeToHdmi_package.all;
 use work.basicBuildingBlocks_package.all;					-- include your library here with added components ac97, ac97cmd
-
+use IEEE.NUMERIC_STD.ALL;
 
 entity acquireToHDMI is
     PORT ( clk : in  STD_LOGIC;
@@ -53,7 +53,7 @@ begin
     
     
     sw(SINGLE_FORCED_TRIGGER_SW_BIT_INDEX) <= buttonActivity(0);
-    triggerCh2 <= sw(CH2_TRIGGER_SW_BIT_INDEX);
+    triggerCh2 <= sw(TRIG_CH2_SW_BIT_INDEX);
 
  	datapath_inst: acquireToHDMI_datapath 
         PORT MAP (
