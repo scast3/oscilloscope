@@ -33,8 +33,12 @@ architecture behavior of acquireToHDMI is
     signal cw: STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
     signal sw: STD_LOGIC_VECTOR(SW_WIDTH -1 downto 0);
     signal forcedMode: STD_LOGIC;
+    signal triggerVolts : SIGNED(15 downto 0); 
+    signal triggerTimePix : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
         	
 begin
+    triggerVolts <= (others => '0');
+    triggerTimePix <= (others => '0');
 
     conversionPlusReadoutTime <= cw(CONVERSION_PLUS_READOUT_CW_BIT_INDEX);
     sampleTimerRollover <= cw(SAMPLE_TIMER_ROLLOVER_CW_BIT_INDEX);
@@ -52,7 +56,21 @@ begin
     triggerCh2 <= sw(CH2_TRIGGER_SW_BIT_INDEX);
 
  	datapath_inst: acquireToHDMI_datapath 
+        PORT MAP (
+            clk => clk,
+            resetn => resetn,
+            cw => cw,
+            sw => sw(DATAPATH_SW_WIDTH - 1 downto 0),
+            an7606data => an7606data,
+            triggerVolt16bitSigned => triggerVolts,
+            triggerTimePixel => triggerTimePix,
             ch1Data16bitSLV => open,
+            ch2Data16bitSLV => open,
+            tmdsDataP => tmdsDataP,
+            tmdsDataN => tmdsDataN,
+            tmdsClkP => tmdsClkP,
+            tmdsClkN => tmdsClkN,
+            hdmiOen => hdmiOen
 	);
                 
 	control_inst: acquireToHDMI_fsm 

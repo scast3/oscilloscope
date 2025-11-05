@@ -49,7 +49,7 @@ begin
         end if;
     end process;
 
-    sw(STORE_INTO_BRAM_SW_BIT_INDEX) <= storeIntoBramFlag;
+    sw(STORE_SW_BIT_INDEX) <= storeIntoBramFlag;
     
     
       
