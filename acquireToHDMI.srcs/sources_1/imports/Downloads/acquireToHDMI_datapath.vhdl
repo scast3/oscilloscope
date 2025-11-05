@@ -37,6 +37,8 @@ architecture behavior of acquireToHDMI_datapath is
     signal vs_temp : STD_LOGIC;
     signal de_temp : STD_LOGIC;
     
+    signal reset : STD_LOGIC;
+    
     signal triggerTime, triggerVolt: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal pixelHorz, pixelVert: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
@@ -44,8 +46,10 @@ architecture behavior of acquireToHDMI_datapath is
     
     signal ch1, ch2: STD_LOGIC; -- is this logic or a slv???
     
+    signal wrAddr : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
 begin
-
+    reset <= not resetn;
     -- Simple SR Latch to assist FSM
     process(clk)
     begin
@@ -120,6 +124,41 @@ begin
             aux2_din => "0000",
             ade => '0'
         );
-
+    -- counter to determine the BRAM write address
+    ch1_counter : genericCounter
+        GENERIC MAP (VIDEO_WIDTH_IN_BITS)
+        PORT MAP(clk=>clk,
+            resetn => resetn,
+            c => cw(DATA_STORAGE_COUNTER_CW_BIT_INDEX downto DATA_STORAGE_COUNTER_CW_BIT_INDEX-1),
+            d => others => '0',
+            q => wrAddr
+        );
+    
+    -- comparator to see if the write address had reached the end yet (screen width)
+    -- i am not really sure how to declare screen width (1099 - 100), but what constants to use?
+    ch1_compare_full : genericCompare
+        GENERIC MAP(VIDEO_WIDTH_IN_BITS)
+        PORT MAP(x => screenWidth, 
+            y => wrAddr, 
+            g => open, 
+            l => open,
+            e => sw(FULL_SW_BIT_INDEX)
+        );
+    
+    ch1_compare_pixelV : genericCompare
+        GENERIC MAP(16)
+        PORT MAP(x => ch1_pixelV, 
+            y => pixelV, 
+            g => open, 
+            l => open,
+            e => ch1
+        );
+    
+    ch1_bram : blk_mem_gen_0
+        PORT MAP(
+            clka <= clk,
+            ena <= '1',
+            wea <= cw(DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX)
+        );
 
 end behavior;
