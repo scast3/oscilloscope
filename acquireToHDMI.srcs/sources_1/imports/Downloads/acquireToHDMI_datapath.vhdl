@@ -32,6 +32,17 @@ end acquireToHDMI_datapath;
 architecture behavior of acquireToHDMI_datapath is
 
     signal storeIntoBramFlag: STD_LOGIC;
+    signal videoClk, videoClk5x, clkLocked: STD_LOGIC;
+    signal hs_temp : STD_LOGIC;
+    signal vs_temp : STD_LOGIC;
+    signal de_temp : STD_LOGIC;
+    
+    signal triggerTime, triggerVolt: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    signal pixelHorz, pixelVert: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
+    signal red, green, blue: STD_LOGIC_VECTOR(7 downto 0);
+    
+    signal ch1, ch2: STD_LOGIC; -- is this logic or a slv???
     
 begin
 
@@ -58,6 +69,7 @@ begin
             clk_in1 => clk,
             clk_out1 => videoClk,
             resetn => resetn,
+            locked => clkLocked,
             clk_out2 => videoClk5x);
     
     vsg: videoSignalGenerator
@@ -77,9 +89,9 @@ begin
             pixelVert => pixelVert,
             triggerTime => triggerTime,
             triggerVolt => triggerVolt,
-            ch1 => ch1Wave,
+            ch1 => ch1,
             ch1enb => '1',
-            ch2 => ch2Wave,
+            ch2 => ch2,
             ch2enb => '1',
             red => red,
             green => green,
