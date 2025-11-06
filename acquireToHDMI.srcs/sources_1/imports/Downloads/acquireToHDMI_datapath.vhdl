@@ -9,6 +9,7 @@ use IEEE.NUMERIC_STD.ALL;
 use work.acquireToHDMI_Package.all;			
 use work.basicBuildingBlocks_package.all;		
 use work.scopeToHdmi_package.all;
+use work.all; 
 
 entity acquireToHDMI_datapath is
     PORT ( clk : in  STD_LOGIC;
@@ -48,6 +49,16 @@ architecture behavior of acquireToHDMI_datapath is
     
     signal wrAddr : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal zeros_vec : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
+    signal dout_bram1 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_pixelV : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
+    signal dout_bram2 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2_pixelV : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    
+    
+    signal wea_1_temp : STD_LOGIC_VECTOR(0 downto 0);
+    signal wea_2_temp : STD_LOGIC_VECTOR(0 downto 0);
     
 begin
     zeros_vec <= (others => '0');
@@ -147,9 +158,13 @@ begin
             l => open,
             e => sw(FULL_SW_BIT_INDEX)
         );
-    
+    pixelConvert_Ch1: entity work.toPixelValue(behavior)
+        PORT MAP (
+            ad7606SLV => dout_bram1,
+            currentPixelV => ch1_pixelV
+        );
     ch1_compare_pixelV : genericCompare
-        GENERIC MAP(16)
+        GENERIC MAP(VIDEO_WIDTH_IN_BITS)
         PORT MAP(x => ch1_pixelV, 
             y => pixelVert, 
             g => open, 
@@ -157,11 +172,17 @@ begin
             e => ch1
         );
     
+    wea_1_temp <= cw(DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX)&"";
     ch1_bram : blk_mem_gen_0
         PORT MAP(
-            clka <= clk,
-            ena <= '1',
-            wea <= cw(DATA_STORAGE_CH1_WRITE_CW_BIT_INDEX)
+            clka => clk,
+            ena => '1',
+            wea => wea_1_temp,
+            addra => wrAddr(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to ensure it's 10 bits not 11
+            dina => an7606data,
+            clkb => clk,
+            enb => '1',
+            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0) -- same
         );
 
 end behavior;
