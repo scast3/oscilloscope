@@ -40,7 +40,7 @@ architecture behavior of acquireToHDMI_datapath is
     
     signal reset : STD_LOGIC;
     
-    signal triggerTime, triggerVolt: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    signal trigTime, trigVscr : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal pixelHorz, pixelVert: STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
     signal red, green, blue: STD_LOGIC_VECTOR(7 downto 0);
@@ -49,6 +49,7 @@ architecture behavior of acquireToHDMI_datapath is
     
     signal wrAddr : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     signal zeros_vec : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
+    signal zeros_vec32 : STD_LOGIC_VECTOR(31 downto 0);
     
     signal dout_bram1 : STD_LOGIC_VECTOR(15 downto 0);
     signal ch1_pixelV : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
@@ -77,8 +78,12 @@ architecture behavior of acquireToHDMI_datapath is
 	signal longZeros : STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH-1 downto 0) ;
 	signal shortZeros : STD_LOGIC_VECTOR(SHORT_DELAY_50Mhz_CONST_WIDTH-1 downto 0);
     
+    -- sampling signals
+    signal currentRate : STD_LOGIC_VECTOR(31 downto 0);
+    signal sampleIndex : STD_LOGIC_VECTOR(31 downto 0);
 begin
     zeros_vec <= (others => '0');
+    zeros_vec32 <= (others => '0');
 
     reset <= not resetn;
     -- Simple SR Latch to assist FSM
@@ -122,8 +127,8 @@ begin
             resetn => resetn,
             pixelHorz => pixelHorz,
             pixelVert => pixelVert,
-            triggerTime => triggerTime,
-            triggerVolt => triggerVolt,
+            triggerTime => trigTime,
+            triggerVolt => trigVscr,
             ch1 => ch1,
             ch1enb => '1',
             ch2 => ch2,
@@ -347,7 +352,43 @@ begin
             l => open,
             e => sw(SHORT_DELAY_DONE_SW_BIT_INDEX)
         );
+    
+    -- sampling rate components
+    sampleMux : genericMux4x1
+        GENERIC MAP(32)
+        PORT MAP(
+            y0 => HIGHEST_RATE, 
+            y1 => HIGH_RATE,
+            y2 => LOWEST_RATE,
+            y3 => LOW_RATE,
+            s => cw(SAMPLING_RATE_SELECT_CW_BIT_INDEX downto SAMPLING_RATE_SELECT_CW_BIT_INDEX-1),
+            f => currentRate
 
+        );
+
+    sampleCounter : genericCounter
+        GENERIC MAP (32)
+        PORT MAP(clk=>clk,
+            resetn => resetn,
+            c => cw(SAMPLING_COUNTER_CW_BIT_INDEX downto SAMPLING_COUNTER_CW_BIT_INDEX-1),
+            d => zeros_vec32,
+            q => sampleIndex
+        );
+    
+    sampleCompare : genericCompare
+        GENERIC MAP(32)
+        PORT MAP(x => sampleIndex, 
+            y => currentRate, 
+            g => open, 
+            l => open,
+            e => sw(SAMPLE_TIMER_ROLLOVER_CW_BIT_INDEX) -- end of smapling interval
+        );
+
+    triggerVoltConvert: entity work.toPixelValue(behavior)
+        PORT MAP (
+            ad7606SLV => STD_LOGIC_VECTOR(triggerVolt16bitSigned), -- this is totally wrong
+            currentPixelV => trigVscr
+        );
     
         
 end behavior;
