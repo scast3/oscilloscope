@@ -60,6 +60,15 @@ architecture behavior of acquireToHDMI_datapath is
     signal wea_1_temp : STD_LOGIC_VECTOR(0 downto 0);
     signal wea_2_temp : STD_LOGIC_VECTOR(0 downto 0);
     
+    -- ch1 trigger signals
+    signal ch1_trigger_sample1 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_trigger_sample2 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_trigger_sample1_cond : STD_LOGIC;
+    
+    signal ch2_trigger_sample1 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2_trigger_sample2 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_trigger_sample2_cond : STD_LOGIC;
+    
 begin
     zeros_vec <= (others => '0');
 
@@ -207,13 +216,53 @@ begin
         PORT MAP(
             clka => clk,
             ena => '1',
-            wea => wea_1_temp,
+            wea => wea_2_temp,
             addra => wrAddr(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to ensure it's 10 bits not 11
             dina => an7606data,
             clkb => clk,
             enb => '1',
-            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
+            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to do pixelhorz - l_edge
             doutb => dout_bram2
         );
-
+    
+    
+    -- ch1 trigger logic
+    ch1_sample1 : genericRegister
+        GENERIC MAP(16)
+        PORT MAP(
+            clk => clk,
+            resetn => resetn,
+            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX),
+            d => an7606data,
+            q => ch1_trigger_sample1
+        );
+    ch1_sample1_compare : genericCompare -- x and y need to be signed??
+        GENERIC MAP(16)
+        PORT MAP(x => ch1_trigger_sample1, 
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned), -- i hope this is right, probaly not
+            g => ch1_trigger_sample1_cond, 
+            l => open,
+            e => open
+        );    
+    ch1_sample2 : genericRegister
+        GENERIC MAP(16)
+        PORT MAP(
+            clk => clk,
+            resetn => resetn,
+            load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX),
+            d => ch1_trigger_sample1,
+            q => ch1_trigger_sample2
+        );
+    ch1_sample2_compare : genericCompare
+        GENERIC MAP(16)
+        PORT MAP(x => ch1_trigger_sample2, 
+            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            g => open, 
+            l => ch1_trigger_sample2_cond,
+            e => open
+        );
+    sw(TRIGGER_SW_BIT_INDEX) <= ch1_trigger_sample1_cond and ch1_trigger_sample2_cond;   
+        
+    
+        
 end behavior;
