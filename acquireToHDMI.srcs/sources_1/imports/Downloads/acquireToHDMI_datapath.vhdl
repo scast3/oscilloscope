@@ -139,7 +139,7 @@ begin
             ade => '0'
         );
     -- counter to determine the BRAM write address
-    ch1_counter : genericCounter
+    dataWriteAddr_counter : genericCounter
         GENERIC MAP (VIDEO_WIDTH_IN_BITS)
         PORT MAP(clk=>clk,
             resetn => resetn,
@@ -150,7 +150,7 @@ begin
     
     -- comparator to see if the write address had reached the end yet (screen width)
     -- i am not really sure how to declare screen width (1099 - 100), but what constants to use?
-    ch1_compare_full : genericCompare
+    cmp_BRAM_full : genericCompare
         GENERIC MAP(VIDEO_WIDTH_IN_BITS)
         PORT MAP(x => DATA_SIZE, 
             y => wrAddr, 
@@ -158,7 +158,9 @@ begin
             l => open,
             e => sw(FULL_SW_BIT_INDEX)
         );
-    pixelConvert_Ch1: entity work.toPixelValue(behavior)
+
+
+    ch1_pixelConvert: entity work.toPixelValue(behavior)
         PORT MAP (
             ad7606SLV => dout_bram1,
             currentPixelV => ch1_pixelV
@@ -182,7 +184,36 @@ begin
             dina => an7606data,
             clkb => clk,
             enb => '1',
-            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0) -- same
+            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
+            doutb => dout_bram1
+        );
+
+    ch2_pixelConvert: entity work.toPixelValue(behavior)
+        PORT MAP (
+            ad7606SLV => dout_bram2,
+            currentPixelV => ch2_pixelV
+        );
+    ch2_compare_pixelV : genericCompare
+        GENERIC MAP(VIDEO_WIDTH_IN_BITS)
+        PORT MAP(x => ch2_pixelV, 
+            y => pixelVert, 
+            g => open, 
+            l => open,
+            e => ch2
+        );
+    
+    wea_2_temp <= cw(DATA_STORAGE_CH2_WRITE_CW_BIT_INDEX)&"";
+    ch2_bram : blk_mem_gen_1
+        PORT MAP(
+            clka => clk,
+            ena => '1',
+            wea => wea_1_temp,
+            addra => wrAddr(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to ensure it's 10 bits not 11
+            dina => an7606data,
+            clkb => clk,
+            enb => '1',
+            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
+            doutb => dout_bram2
         );
 
 end behavior;
