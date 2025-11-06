@@ -70,6 +70,12 @@ architecture behavior of acquireToHDMI_datapath is
     signal ch2_trigger_sample2 : STD_LOGIC_VECTOR(15 downto 0);
     signal ch2_trigger_sample1_cond : STD_LOGIC;
     signal ch2_trigger_sample2_cond : STD_LOGIC;
+
+    -- counter signals
+    signal currentLongCount : STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH-1 downto 0);
+	signal currentShortCount : STD_LOGIC_VECTOR(SHORT_DELAY_50Mhz_CONST_WIDTH-1 downto 0);
+	signal longZeros : STD_LOGIC_VECTOR(LONG_DELAY_50Mhz_CONST_WIDTH-1 downto 0) ;
+	signal shortZeros : STD_LOGIC_VECTOR(SHORT_DELAY_50Mhz_CONST_WIDTH-1 downto 0);
     
 begin
     zeros_vec <= (others => '0');
@@ -303,6 +309,43 @@ begin
             g => open, 
             l => ch2_trigger_sample2_cond,
             e => open
+        );
+
+    -- short and long counters
+    longCounter : genericCounter
+        GENERIC MAP (LONG_DELAY_50Mhz_CONST_WIDTH)
+        PORT MAP(clk=>clk,
+            resetn => resetn,
+            c => cw(LONG_DELAY_COUNTER_CW_BIT_INDEX downto LONG_DELAY_COUNTER_CW_BIT_INDEX-1),
+            d => longZeros,
+            q => currentLongCount
+        );
+	
+	longCompare : genericCompare
+        GENERIC MAP(LONG_DELAY_50Mhz_CONST_WIDTH)
+        PORT MAP(x => LONG_DELAY_50Mhz_COUNTS, 
+            y => currentLongCount, 
+            g => open, 
+            l => open,
+            e => sw(LONG_DELAY_DONE_SW_BIT_INDEX)
+        );
+
+	shortCounter : genericCounter
+        GENERIC MAP (SHORT_DELAY_50Mhz_CONST_WIDTH)
+        PORT MAP(clk=>clk,
+            resetn => resetn,
+            c => cw(SHORT_DELAY_COUNTER_CW_BIT_INDEX downto SHORT_DELAY_COUNTER_CW_BIT_INDEX-1),
+            d => shortZeros,
+            q => currentShortCount
+        );
+
+	shortCompare : genericCompare
+        GENERIC MAP(SHORT_DELAY_50Mhz_CONST_WIDTH)
+        PORT MAP(x => SHORT_DELAY_50Mhz_COUNTS, 
+            y => currentShortCount, 
+            g => open, 
+            l => open,
+            e => sw(SHORT_DELAY_DONE_SW_BIT_INDEX)
         );
 
     
