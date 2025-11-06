@@ -127,6 +127,7 @@ begin
 								else
 									state <= BEGIN_CONVST;
 								end if;
+							end if;
 						end if;
 					when BRAM_FULL =>
 						if (FORCED_SW = '1') then

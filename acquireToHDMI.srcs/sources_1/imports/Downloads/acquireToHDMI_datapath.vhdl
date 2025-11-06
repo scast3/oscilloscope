@@ -141,7 +141,7 @@ begin
     -- i am not really sure how to declare screen width (1099 - 100), but what constants to use?
     ch1_compare_full : genericCompare
         GENERIC MAP(VIDEO_WIDTH_IN_BITS)
-        PORT MAP(x => screenWidth, 
+        PORT MAP(x => DATA_SIZE, 
             y => wrAddr, 
             g => open, 
             l => open,

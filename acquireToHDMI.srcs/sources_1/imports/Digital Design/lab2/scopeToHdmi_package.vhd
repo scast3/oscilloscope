@@ -50,6 +50,7 @@ package scopeToHdmi_package is
         
     constant L_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(100, VIDEO_WIDTH_IN_BITS));
     constant R_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(1099, VIDEO_WIDTH_IN_BITS));
+    constant DATA_SIZE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := R_EDGE - L_EDGE;
     constant WIDTH : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(2, VIDEO_WIDTH_IN_BITS));
 
     constant T_EDGE : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0) := std_logic_vector(to_unsigned(100, VIDEO_WIDTH_IN_BITS));
