@@ -331,6 +331,7 @@ begin
             l => ch2_trigger_sample2_cond,
             e => open
         );
+    sw(TRIG_CH2_SW_BIT_INDEX) <= ch2_trigger_sample1_cond and ch2_trigger_sample2_cond;
 
     -- short and long counters
     longCounter : genericCounter

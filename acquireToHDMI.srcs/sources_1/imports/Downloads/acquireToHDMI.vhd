@@ -38,7 +38,7 @@ architecture behavior of acquireToHDMI is
         	
 begin
     temp_resetn <= btn(2);
-    
+    hdmiOen <= '1';
     triggerVolts <= (others => '0');
     triggerTimePix <= (others => '0');
 
