@@ -71,7 +71,7 @@ begin
             else
                 if (btn(1)='0' and prevBtn(1)='1') then -- falling edge
                     sw(FORCED_MODE_SW_BIT_INDEX) <= not sw(FORCED_MODE_SW_BIT_INDEX); -- toggle forced and trigger
-                elsif (btn(2)='0' and prevBtn(2)='1') then
+                elsif (btn(0)='0' and prevBtn(0)='1') then
                     sw(SINGLE_MODE_SW_BIT_INDEX) <= '1';
                 end if;
                 prevBtn := btn;

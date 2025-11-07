@@ -32,6 +32,12 @@ end component;
 		 g,l,e: out std_logic);
 	end component;
 
+	component genericCompare_Signed is
+	    generic(N: integer := 4);
+	    port(x,y : in SIGNED(N-1 downto 0);
+		 g,l,e: out std_logic);
+	end component;
+
 	component genericCounter is
 	    generic(N: integer:=4);
 	    port(clk,resetn : in std_logic;
@@ -68,6 +74,12 @@ end component;
          	       d: in  std_logic_vector(N-1 downto 0);
           	      q: out std_logic_vector(N-1 downto 0) );
 	end component;
+
+	component genericRegister_Signed is
+		generic(N: integer := 4);
+		port (  clk, resetn,load: in std_logic;
+         	       d: in  SIGNED(N-1 downto 0);
+          	      q: out SIGNED(N-1 downto 0) );
 	
 	component decode3x8 is
             port(   dataIn :in STD_LOGIC;
