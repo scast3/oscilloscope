@@ -43,16 +43,47 @@ begin
     conversionPlusReadoutTime <= cw(CONVERSION_PLUS_READOUT_CW_BIT_INDEX);
     sampleTimerRollover <= cw(SAMPLE_TIMER_ROLLOVER_CW_BIT_INDEX);
     
-    an7606convst <= cw(CONVST_CW_BIT_INDEX);    
+    an7606convst <= cw(CONVST_CW_BIT_INDEX);
+    an7606cs <= cw(CS_CW_BIT_INDEX);
+    an7606rd <= cw(RD_CW_BIT_INDEX);
+    an7606reset <= cw(RESET_AD7606_CW_BIT_INDEX);    
     an7606od <= "000"; 
+    
+    sw(AN7606_BUSY_SW_BIT_INDEX) <= an7606busy;
 
     ------------------------------------------------------------------------------
     -- Button Process
     ------------------------------------------------------------------------------
-
+    -- btn(0) = PL_KEY2
+    -- btn(1) = PL_KEY3
+    -- btn(2) = PL_KEY4
+    
+    btn_process : process(clk, resetn)
+    variable prevBtn : std_logic_vector(2 downto 0) := (others => '0');
+    begin
+        if rising_edge(clk) then
+            if resetn = '0' then
+                prevBtn := (others => '0');
+                sw(FORCED_MODE_SW_BIT_INDEX) <= '0'; -- default is trigger mode
+                sw(SINGLE_MODE_SW_BIT_INDEX) <= '0';
+            else
+                if (btn(1)='0' and prevBtn(1)='0') then -- falling edge
+                    sw(FORCED_MODE_SW_BIT_INDEX) <= not sw(FORCED_MODE_SW_BIT_INDEX); -- toggle forced and trigger
+                elsif (btn(2)='0' and prevBtn(2)='0') then
+                    sw(SINGLE_MODE_SW_BIT_INDEX) <= '1';
+                end if;
+                prevBtn := btn;
+            end if;
+        end if;
+	end process;	
+        
+    
+    -- resetn <= btn(2);
+    --sw(FORCED_MODE_SW_BIT_INDEX) <= btn(0);
+    --sw(SINGLE_MODE_SW_BIT_INDEX) <= btn(1);
     
     
-    sw(FORCED_MODE_SW_BIT_INDEX) <= btn(0);
+    triggerCh1 <= sw(TRIG_CH1_SW_BIT_INDEX);
     triggerCh2 <= sw(TRIG_CH2_SW_BIT_INDEX);
 
  	datapath_inst: acquireToHDMI_datapath 

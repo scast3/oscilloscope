@@ -15,7 +15,7 @@ entity acquireToHDMI_datapath is
     PORT ( clk : in  STD_LOGIC;
            resetn : in  STD_LOGIC;
 		   cw : in STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
-		   sw : out STD_LOGIC_VECTOR(SW_WIDTH - 1 downto 0);
+		   sw : out STD_LOGIC_VECTOR(DATAPATH_SW_WIDTH - 1 downto 0);
 		   an7606data: in STD_LOGIC_VECTOR(15 downto 0);
 
            triggerVolt16bitSigned: in SIGNED(15 downto 0);
@@ -381,7 +381,7 @@ begin
             y => currentRate, 
             g => open, 
             l => open,
-            e => sw(SAMPLE_TIMER_ROLLOVER_CW_BIT_INDEX) -- end of smapling interval
+            e => sw(SAMPLE_SW_BIT_INDEX) -- end of smapling interval
         );
 
     triggerVoltConvert: entity work.toPixelValue(behavior)
