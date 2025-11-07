@@ -29,7 +29,7 @@ entity acquireToHDMI is
 end acquireToHDMI;
 
 architecture behavior of acquireToHDMI is
-    
+    signal temp_resetn : STD_LOGIC;
     signal cw: STD_LOGIC_VECTOR(CW_WIDTH -1 downto 0);
     signal sw: STD_LOGIC_VECTOR(SW_WIDTH -1 downto 0);
     signal forcedMode: STD_LOGIC;
@@ -37,6 +37,8 @@ architecture behavior of acquireToHDMI is
     signal triggerTimePix : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
         	
 begin
+    temp_resetn <= btn(2);
+    
     triggerVolts <= (others => '0');
     triggerTimePix <= (others => '0');
 
@@ -54,7 +56,7 @@ begin
     ------------------------------------------------------------------------------
     -- Button Process
     ------------------------------------------------------------------------------
-    -- btn(0) = PL_KEY2
+    -- btn(0) = PL_KEY1
     -- btn(1) = PL_KEY3
     -- btn(2) = PL_KEY4
     
@@ -64,12 +66,12 @@ begin
         if rising_edge(clk) then
             if resetn = '0' then
                 prevBtn := (others => '0');
-                sw(FORCED_MODE_SW_BIT_INDEX) <= '0'; -- default is trigger mode
+                sw(FORCED_MODE_SW_BIT_INDEX) <= '1'; -- default is forced mode
                 sw(SINGLE_MODE_SW_BIT_INDEX) <= '0';
             else
-                if (btn(1)='0' and prevBtn(1)='0') then -- falling edge
+                if (btn(1)='0' and prevBtn(1)='1') then -- falling edge
                     sw(FORCED_MODE_SW_BIT_INDEX) <= not sw(FORCED_MODE_SW_BIT_INDEX); -- toggle forced and trigger
-                elsif (btn(2)='0' and prevBtn(2)='0') then
+                elsif (btn(2)='0' and prevBtn(2)='1') then
                     sw(SINGLE_MODE_SW_BIT_INDEX) <= '1';
                 end if;
                 prevBtn := btn;
