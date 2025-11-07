@@ -5,6 +5,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 use work.acquireToHDMI_Package.all;			
 use work.basicBuildingBlocks_package.all;		
@@ -31,7 +32,9 @@ entity acquireToHDMI_datapath is
 end acquireToHDMI_datapath;
 
 architecture behavior of acquireToHDMI_datapath is
-
+    
+    signal adc_data_signed : SIGNED(15 downto 0);
+    
     signal storeIntoBramFlag: STD_LOGIC;
     signal videoClk, videoClk5x, clkLocked: STD_LOGIC;
     signal hs_temp : STD_LOGIC;
@@ -57,18 +60,19 @@ architecture behavior of acquireToHDMI_datapath is
     signal dout_bram2 : STD_LOGIC_VECTOR(15 downto 0);
     signal ch2_pixelV : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
+    signal data_address : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS - 1 downto 0);
     
     signal wea_1_temp : STD_LOGIC_VECTOR(0 downto 0);
     signal wea_2_temp : STD_LOGIC_VECTOR(0 downto 0);
     
     -- ch1 trigger signals
-    signal ch1_trigger_sample1 : STD_LOGIC_VECTOR(15 downto 0);
-    signal ch1_trigger_sample2 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch1_trigger_sample1 : SIGNED(15 downto 0);
+    signal ch1_trigger_sample2 : SIGNED(15 downto 0);
     signal ch1_trigger_sample1_cond : STD_LOGIC;
     signal ch1_trigger_sample2_cond : STD_LOGIC;
     
-    signal ch2_trigger_sample1 : STD_LOGIC_VECTOR(15 downto 0);
-    signal ch2_trigger_sample2 : STD_LOGIC_VECTOR(15 downto 0);
+    signal ch2_trigger_sample1 : SIGNED(15 downto 0);
+    signal ch2_trigger_sample2 : SIGNED(15 downto 0);
     signal ch2_trigger_sample1_cond : STD_LOGIC;
     signal ch2_trigger_sample2_cond : STD_LOGIC;
 
@@ -81,11 +85,15 @@ architecture behavior of acquireToHDMI_datapath is
     -- sampling signals
     signal currentRate : STD_LOGIC_VECTOR(31 downto 0);
     signal sampleIndex : STD_LOGIC_VECTOR(31 downto 0);
+    
 begin
     zeros_vec <= (others => '0');
     zeros_vec32 <= (others => '0');
+    adc_data_signed <= signed(an7606data);
 
     reset <= not resetn;
+    
+    data_address <= pixelHorz - L_EDGE;
     -- Simple SR Latch to assist FSM
     process(clk)
     begin
@@ -240,26 +248,26 @@ begin
     
     
     -- ch1 trigger logic
-    ch1_sample1 : genericRegister
+    ch1_sample1 : genericRegister_Signed
         GENERIC MAP(16)
         PORT MAP(
             clk => clk,
             resetn => resetn,
             load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX),
-            d => an7606data,
+            d => adc_data_signed,
             q => ch1_trigger_sample1
         );
-    ch1Data16bitSLV <= ch1_trigger_sample1;
+    ch1Data16bitSLV <= std_logic_vector(ch1_trigger_sample1);
 
-    ch1_sample1_compare : genericCompare -- x and y need to be signed??
+    ch1_sample1_compare : genericCompare_Signed
         GENERIC MAP(16)
         PORT MAP(x => ch1_trigger_sample1, 
-            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned), -- i hope this is right, probaly not
+            y => triggerVolt16bitSigned,
             g => ch1_trigger_sample1_cond, 
             l => open,
             e => open
         );    
-    ch1_sample2 : genericRegister
+    ch1_sample2 : genericRegister_Signed
         GENERIC MAP(16)
         PORT MAP(
             clk => clk,
@@ -268,10 +276,10 @@ begin
             d => ch1_trigger_sample1,
             q => ch1_trigger_sample2
         );
-    ch1_sample2_compare : genericCompare
+    ch1_sample2_compare : genericCompare_Signed
         GENERIC MAP(16)
         PORT MAP(x => ch1_trigger_sample2, 
-            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            y => triggerVolt16bitSigned,
             g => open, 
             l => ch1_trigger_sample2_cond,
             e => open
@@ -279,26 +287,26 @@ begin
     sw(TRIGGER_SW_BIT_INDEX) <= ch1_trigger_sample1_cond and ch1_trigger_sample2_cond;   
         
     -- ch2 trigger logic
-    ch2_sample1 : genericRegister
+    ch2_sample1 : genericRegister_Signed
         GENERIC MAP(16)
         PORT MAP(
             clk => clk,
             resetn => resetn,
             load => cw(TRIG_CH2_WRITE_CW_BIT_INDEX),
-            d => an7606data,
+            d => adc_data_signed,
             q => ch2_trigger_sample1
         );
-    ch2Data16bitSLV <= ch2_trigger_sample1;
+    ch2Data16bitSLV <= std_logic_vector(ch2_trigger_sample1);
 
-    ch2_sample1_compare : genericCompare -- x and y need to be signed??
+    ch2_sample1_compare : genericCompare_Signed -- x and y need to be signed??
         GENERIC MAP(16)
         PORT MAP(x => ch2_trigger_sample1, 
-            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned), -- i hope this is right, probaly not
+            y => triggerVolt16bitSigned, -- i hope this is right, probaly not
             g => ch2_trigger_sample1_cond, 
             l => open,
             e => open
         );    
-    ch2_sample2 : genericRegister
+    ch2_sample2 : genericRegister_Signed
         GENERIC MAP(16)
         PORT MAP(
             clk => clk,
@@ -307,10 +315,10 @@ begin
             d => ch2_trigger_sample1,
             q => ch2_trigger_sample2
         );
-    ch2_sample2_compare : genericCompare
+    ch2_sample2_compare : genericCompare_Signed
         GENERIC MAP(16)
         PORT MAP(x => ch1_trigger_sample2, 
-            y => STD_LOGIC_VECTOR(triggerVolt16bitSigned),
+            y => triggerVolt16bitSigned,
             g => open, 
             l => ch2_trigger_sample2_cond,
             e => open

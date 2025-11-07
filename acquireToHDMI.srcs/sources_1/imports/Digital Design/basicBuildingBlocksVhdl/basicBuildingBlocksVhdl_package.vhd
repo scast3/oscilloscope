@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all;
 
 package basicBuildingBlocks_package is
 
@@ -80,6 +81,7 @@ end component;
 		port (  clk, resetn,load: in std_logic;
          	       d: in  SIGNED(N-1 downto 0);
           	      q: out SIGNED(N-1 downto 0) );
+    end component;
 	
 	component decode3x8 is
             port(   dataIn :in STD_LOGIC;
