@@ -41,10 +41,11 @@ add_wave -into $AD7606_ID -color $groupColor -radix hex	/acquireToHDMI_tb/uut/an
 set groupColor YELLOW
 set BRAM_ID [add_wave_group "BRAM Interface"]
 add_wave -into $BRAM_ID -color $groupColor -radix unsigned -name "Ch1 Write Address" /acquireToHDMI_tb/uut/datapath_inst/ch1_bram/addra
-add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[0]
-add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[1]
-add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[2]
-add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[3]
+set BRAM_PATH /acquireToHDMI_tb/uut/datapath_inst/ch1_bram/inst/\native_mem_module.blk_mem_gen_v8_4_11_inst
+add_wave -into $BRAM_ID -color $groupColor $BRAM_PATH/memory[0]
+add_wave -into $BRAM_ID -color $groupColor $BRAM_PATH/memory[1]
+add_wave -into $BRAM_ID -color $groupColor $BRAM_PATH/memory[2]
+add_wave -into $BRAM_ID -color $groupColor $BRAM_PATH/memory[3]
 
 
 set groupColor BLUE
