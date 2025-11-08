@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="acquireToHDMI_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="acquireToHDMI_tb" />
+            <top_module name="acquiretohdmi_package" />
+            <top_module name="basicbuildingblocks_package" />
+            <top_module name="glbl" />
+            <top_module name="scopetohdmi_package" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="1,311,026.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,311,470.001 ns"></ZoomEndTime>
+      <Cursor1Time time="1,311,304.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="278"></NameColumnWidth>
+      <ValueColumnWidth column_width="106"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wvobject fp_name="/acquireToHDMI_tb/uut/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+      <obj_property name="CustomSignalColor">green</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/acquireToHDMI_tb/uut/resetn" type="logic">
+      <obj_property name="ElementShortName">resetn</obj_property>
+      <obj_property name="ObjectShortName">resetn</obj_property>
+      <obj_property name="CustomSignalColor">green</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="group2232" type="group">
+      <obj_property name="label">topLevelIO</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/btn" type="array">
+         <obj_property name="ElementShortName">btn[2:0]</obj_property>
+         <obj_property name="ObjectShortName">btn[2:0]</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/triggerCh1" type="logic">
+         <obj_property name="ElementShortName">triggerCh1</obj_property>
+         <obj_property name="ObjectShortName">triggerCh1</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample1" type="array">
+         <obj_property name="ElementShortName">ch1_trigger_sample1[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_trigger_sample1[15:0]</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample2" type="array">
+         <obj_property name="ElementShortName">ch1_trigger_sample2[15:0]</obj_property>
+         <obj_property name="ObjectShortName">ch1_trigger_sample2[15:0]</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample1_cond" type="logic">
+         <obj_property name="ElementShortName">ch1_trigger_sample1_cond</obj_property>
+         <obj_property name="ObjectShortName">ch1_trigger_sample1_cond</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample2_cond" type="logic">
+         <obj_property name="ElementShortName">ch1_trigger_sample2_cond</obj_property>
+         <obj_property name="ObjectShortName">ch1_trigger_sample2_cond</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/conversionPlusReadoutTime" type="logic">
+         <obj_property name="ElementShortName">conversionPlusReadoutTime</obj_property>
+         <obj_property name="ObjectShortName">conversionPlusReadoutTime</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sampleTimerRollover" type="logic">
+         <obj_property name="ElementShortName">sampleTimerRollover</obj_property>
+         <obj_property name="ObjectShortName">sampleTimerRollover</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/acquireToHDMI_tb/uut/control_inst/state" type="other">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+      <obj_property name="CustomSignalColor">aqua</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="group2242" type="group">
+      <obj_property name="label">Counters</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/currentShortCount" type="array">
+         <obj_property name="ElementShortName">currentShortCount[7:0]</obj_property>
+         <obj_property name="ObjectShortName">currentShortCount[7:0]</obj_property>
+         <obj_property name="CustomSignalColor">PURPLE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/currentLongCount" type="array">
+         <obj_property name="ElementShortName">currentLongCount[23:0]</obj_property>
+         <obj_property name="ObjectShortName">currentLongCount[23:0]</obj_property>
+         <obj_property name="CustomSignalColor">PURPLE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/sampleIndex" type="array">
+         <obj_property name="ElementShortName">sampleIndex[31:0]</obj_property>
+         <obj_property name="ObjectShortName">sampleIndex[31:0]</obj_property>
+         <obj_property name="CustomSignalColor">PURPLE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group2246" type="group">
+      <obj_property name="label">AD7606 Interface</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606reset" type="logic">
+         <obj_property name="ElementShortName">an7606reset</obj_property>
+         <obj_property name="ObjectShortName">an7606reset</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606convst" type="logic">
+         <obj_property name="ElementShortName">an7606convst</obj_property>
+         <obj_property name="ObjectShortName">an7606convst</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606cs" type="logic">
+         <obj_property name="ElementShortName">an7606cs</obj_property>
+         <obj_property name="ObjectShortName">an7606cs</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606rd" type="logic">
+         <obj_property name="ElementShortName">an7606rd</obj_property>
+         <obj_property name="ObjectShortName">an7606rd</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606busy" type="logic">
+         <obj_property name="ElementShortName">an7606busy</obj_property>
+         <obj_property name="ObjectShortName">an7606busy</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/an7606data" type="array">
+         <obj_property name="ElementShortName">an7606data[15:0]</obj_property>
+         <obj_property name="ObjectShortName">an7606data[15:0]</obj_property>
+         <obj_property name="CustomSignalColor">ORANGE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group2253" type="group">
+      <obj_property name="label">BRAM Interface</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/ch1_bram/addra" type="array">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">addra[9:0]</obj_property>
+         <obj_property name="ObjectShortName">addra[9:0]</obj_property>
+         <obj_property name="CustomSignalColor">YELLOW</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+         <obj_property name="label">Ch1 Write Address</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group3263" type="group">
+      <obj_property name="label">Video Interface</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/vsg/h_cnt" type="array">
+         <obj_property name="ElementShortName">h_cnt[10:0]</obj_property>
+         <obj_property name="ObjectShortName">h_cnt[10:0]</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/vsg/pixelHorz" type="array">
+         <obj_property name="ElementShortName">pixelHorz[10:0]</obj_property>
+         <obj_property name="ObjectShortName">pixelHorz[10:0]</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/hs_temp" type="logic">
+         <obj_property name="ElementShortName">hs_temp</obj_property>
+         <obj_property name="ObjectShortName">hs_temp</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/vsg/v_cnt" type="array">
+         <obj_property name="ElementShortName">v_cnt[10:0]</obj_property>
+         <obj_property name="ObjectShortName">v_cnt[10:0]</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/vsg/pixelVert" type="array">
+         <obj_property name="ElementShortName">pixelVert[10:0]</obj_property>
+         <obj_property name="ObjectShortName">pixelVert[10:0]</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/vs_temp" type="logic">
+         <obj_property name="ElementShortName">vs_temp</obj_property>
+         <obj_property name="ObjectShortName">vs_temp</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/de_temp" type="logic">
+         <obj_property name="ElementShortName">de_temp</obj_property>
+         <obj_property name="ObjectShortName">de_temp</obj_property>
+         <obj_property name="CustomSignalColor">BLUE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/red" type="array">
+         <obj_property name="ElementShortName">red[7:0]</obj_property>
+         <obj_property name="ObjectShortName">red[7:0]</obj_property>
+         <obj_property name="CustomSignalColor">red</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/green" type="array">
+         <obj_property name="ElementShortName">green[7:0]</obj_property>
+         <obj_property name="ObjectShortName">green[7:0]</obj_property>
+         <obj_property name="CustomSignalColor">green</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/datapath_inst/blue" type="array">
+         <obj_property name="ElementShortName">blue[7:0]</obj_property>
+         <obj_property name="ObjectShortName">blue[7:0]</obj_property>
+         <obj_property name="CustomSignalColor">blue</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group3274" type="group">
+      <obj_property name="label">Status Word</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[9]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[9]</obj_property>
+         <obj_property name="ObjectShortName">[9]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">BUSY</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[8]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">[8]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">FORCED MODE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[7]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">SINGLE MODE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[6]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH2 TRIGGER</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[5]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH1 TRIGGER</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[4]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">STORE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[3]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">SAMPLE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[2]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">FULL</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[1]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">LONG DELAY DONE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/sw[0]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+         <obj_property name="CustomSignalColor">MAROON</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">SHORT DELAY DONE</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group3285" type="group">
+      <obj_property name="label">Control Word</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[21]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[21]</obj_property>
+         <obj_property name="ObjectShortName">[21]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CLEAR STORE FLAG</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[20]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[20]</obj_property>
+         <obj_property name="ObjectShortName">[20]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">SET STORE FLAG</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[19]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[19]</obj_property>
+         <obj_property name="ObjectShortName">[19]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH2 TRIGGER WRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[18]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[18]</obj_property>
+         <obj_property name="ObjectShortName">[18]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH1 TRIGGER WRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[17]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[17]</obj_property>
+         <obj_property name="ObjectShortName">[17]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CONV PLUS READOUT</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[16]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[16]</obj_property>
+         <obj_property name="ObjectShortName">[16]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">SAMPLE TIMER ROLLOVER</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[15]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[15]</obj_property>
+         <obj_property name="ObjectShortName">[15]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH2 BRAM WRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[14]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[14]</obj_property>
+         <obj_property name="ObjectShortName">[14]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CH1 BRAM WRITE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[13]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[13]</obj_property>
+         <obj_property name="ObjectShortName">[13]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CONVST</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[12]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[12]</obj_property>
+         <obj_property name="ObjectShortName">[12]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">RD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[11]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[11]</obj_property>
+         <obj_property name="ObjectShortName">[11]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">CS</obj_property>
+      </wvobject>
+      <wvobject fp_name="/acquireToHDMI_tb/uut/cw[10]" type="logic">
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="ElementShortName">[10]</obj_property>
+         <obj_property name="ObjectShortName">[10]</obj_property>
+         <obj_property name="CustomSignalColor">LIME</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+         <obj_property name="label">RESET AD7606</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

@@ -114,7 +114,7 @@ begin
 							state <= WAIT_END_SAMP_INT;
 						end if;
 					when WAIT_END_SAMP_INT =>
-						if (SAMPLE_SW = '0') then
+						if (SAMPLE_SW = '1') then
 							state <= WAIT_END_SAMP_INT;
 						elsif (SAMPLE_SW = '0') then
 							if (FULL_SW = '1') then

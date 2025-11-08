@@ -90,6 +90,7 @@ architecture behavior of acquireToHDMI_datapath is
     signal sampleIndex : STD_LOGIC_VECTOR(31 downto 0);
     
 begin
+    hdmiOen <= '1';
     zeros_vec <= (others => '0');
     zeros_vec32 <= (others => '0');
 
