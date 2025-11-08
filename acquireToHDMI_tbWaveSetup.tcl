@@ -3,7 +3,7 @@
 # source acquireToHDMI_tbWaveSetup.tcl
 #################################################################################
 restart
-remove_waves [get_waves *]
+# remove_objects [get_waves *]
 
 add_wave  -color green /acquireToHDMI_tb/uut/clk
 add_wave  -color green /acquireToHDMI_tb/uut/resetn
@@ -12,10 +12,10 @@ set groupColor YELLOW
 set TOP_ID [add_wave_group "topLevelIO"]
 add_wave -into $TOP_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/btn
 add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/triggerCh1
-add_wave -into $TOP_ID -color $groupColor -radix hex /acquireToHDMI_tb/uut/datapath_inst/fistCh1DataStdLogicVector
-add_wave -into $TOP_ID -color $groupColor -radix hex /acquireToHDMI_tb/uut/datapath_inst/secondCh1DataStdLogicVector
-add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/firstCh1GreaterThanTrigger
-add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/secondCh1LessThanTrigger
+add_wave -into $TOP_ID -color $groupColor -radix hex /acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample1
+add_wave -into $TOP_ID -color $groupColor -radix hex /acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample2
+add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample1_cond
+add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/ch1_trigger_sample2_cond
 add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/conversionPlusReadoutTime
 add_wave -into $TOP_ID -color $groupColor /acquireToHDMI_tb/uut/sampleTimerRollover
 
@@ -23,10 +23,11 @@ add_wave   -color aqua /acquireToHDMI_tb/uut/control_inst/state
 
 set groupColor PURPLE
 set COUNT_ID [add_wave_group "Counters"]
--- Add sample rate counter
-add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/shortDelayCounter
-add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/longDelayCounter
-add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/timerCounter
+# -- Add sample rate counter
+add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/currentShortCount
+add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/currentLongCount
+add_wave -into $COUNT_ID -color $groupColor -radix unsigned /acquireToHDMI_tb/uut/datapath_inst/sampleIndex
+# not sure what timerCounter is referring to, im going to assume it's the sample counter 
 
 set groupColor ORANGE
 set AD7606_ID [add_wave_group "AD7606 Interface"]
@@ -39,7 +40,7 @@ add_wave -into $AD7606_ID -color $groupColor -radix hex	/acquireToHDMI_tb/uut/an
 
 set groupColor YELLOW
 set BRAM_ID [add_wave_group "BRAM Interface"]
-add_wave -into $BRAM_ID -color $groupColor -radix unsigned -name "Ch1 Write Address" /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/addra
+add_wave -into $BRAM_ID -color $groupColor -radix unsigned -name "Ch1 Write Address" /acquireToHDMI_tb/uut/datapath_inst/ch1_bram/addra
 add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[0]
 add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[1]
 add_wave -into $BRAM_ID -color $groupColor /acquireToHDMI_tb/uut/datapath_inst/dataStorage_ch1/inst/native_mem_module.blk_mem_gen_v8_4_5_inst/memory[2]
