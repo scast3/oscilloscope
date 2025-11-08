@@ -63,14 +63,36 @@ add_wave -into $HDMI_ID -color blue -radix unsigned /acquireToHDMI_tb/uut/datapa
 
 set groupColor MAROON
 set SW_ID [add_wave_group "Status Word"]
-add_wave -into $SW_ID -color $groupColor -name "FORCED MODE" 		/acquireToHDMI_tb/uut/sw[9]
-<continue with the other bits of the status word>
+add_wave -into $SW_ID -color $groupColor -name "BUSY" 		/acquireToHDMI_tb/uut/sw[9]
+add_wave -into $SW_ID -color $groupColor -name "FORCED MODE" 		/acquireToHDMI_tb/uut/sw[8]
+add_wave -into $SW_ID -color $groupColor -name "SINGLE MODE" 		/acquireToHDMI_tb/uut/sw[7]
+add_wave -into $SW_ID -color $groupColor -name "CH2 TRIGGER" 		/acquireToHDMI_tb/uut/sw[6]
+add_wave -into $SW_ID -color $groupColor -name "CH1 TRIGGER" 		/acquireToHDMI_tb/uut/sw[5]
+add_wave -into $SW_ID -color $groupColor -name "STORE" 		/acquireToHDMI_tb/uut/sw[4]
+add_wave -into $SW_ID -color $groupColor -name "SAMPLE" 		/acquireToHDMI_tb/uut/sw[3]
+add_wave -into $SW_ID -color $groupColor -name "FULL" 		/acquireToHDMI_tb/uut/sw[2]
+add_wave -into $SW_ID -color $groupColor -name "LONG DELAY DONE" 		/acquireToHDMI_tb/uut/sw[1]
+add_wave -into $SW_ID -color $groupColor -name "SHORT DELAY DONE" 		/acquireToHDMI_tb/uut/sw[0]
 
 set groupColor LIME
 set CW_ID [add_wave_group "Control Word"]
 add_wave -into $CW_ID -color $groupColor -name "CLEAR STORE FLAG" /acquireToHDMI_tb/uut/cw[21]
 add_wave -into $CW_ID -color $groupColor -name "SET STORE FLAG" /acquireToHDMI_tb/uut/cw[20]
-<continue with the other bits of the control word>
+add_wave -into $CW_ID -color $groupColor -name "CH2 TRIGGER WRITE" /acquireToHDMI_tb/uut/cw[19]
+add_wave -into $CW_ID -color $groupColor -name "CH1 TRIGGER WRITE" /acquireToHDMI_tb/uut/cw[18]
+add_wave -into $CW_ID -color $groupColor -name "CONV PLUS READOUT" /acquireToHDMI_tb/uut/cw[17]
+add_wave -into $CW_ID -color $groupColor -name "SAMPLE TIMER ROLLOVER" /acquireToHDMI_tb/uut/cw[16]
+add_wave -into $CW_ID -color $groupColor -name "CH2 BRAM WRITE" /acquireToHDMI_tb/uut/cw[15]
+add_wave -into $CW_ID -color $groupColor -name "CH1 BRAM WRITE" /acquireToHDMI_tb/uut/cw[14]
+add_wave -into $CW_ID -color $groupColor -name "CONVST" /acquireToHDMI_tb/uut/cw[13]
+add_wave -into $CW_ID -color $groupColor -name "RD" /acquireToHDMI_tb/uut/cw[12]
+add_wave -into $CW_ID -color $groupColor -name "CS" /acquireToHDMI_tb/uut/cw[11]
+add_wave -into $CW_ID -color $groupColor -name "RESET AD7606" /acquireToHDMI_tb/uut/cw[10]
+add_wave -into $CW_ID -color $groupColor -name "DATA STORAGE COUNTER" /acquireToHDMI_tb/uut/cw[9:8]
+add_wave -into $CW_ID -color $groupColor -name "SAMPLE COUNTER" /acquireToHDMI_tb/uut/cw[7:6]
+add_wave -into $CW_ID -color $groupColor -name "SAMPLE RATE SELECT" /acquireToHDMI_tb/uut/cw[5:4]
+add_wave -into $CW_ID -color $groupColor -name "LONG DELAY COUNTER" /acquireToHDMI_tb/uut/cw[3:2]
+add_wave -into $CW_ID -color $groupColor -name "SHORT DELAY COUNTER" /acquireToHDMI_tb/uut/cw[1:0]
 
 set FORCED_CHECK01        500ns   
 set FORCED_CHECK02      700000ns  
