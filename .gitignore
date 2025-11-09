@@ -27,3 +27,5 @@ pre-built/linux/
 
 *.xpr
 *.xci
+*.txt
+*.wcfg
