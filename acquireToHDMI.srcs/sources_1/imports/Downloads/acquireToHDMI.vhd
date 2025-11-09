@@ -37,7 +37,7 @@ architecture behavior of acquireToHDMI is
     signal triggerTimePix : STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
         	
 begin
-    temp_resetn <= btn(2);
+    temp_resetn <= btn(2) or resetn;
     hdmiOen <= '1';
     triggerVolts <= (others => '0');
     triggerTimePix <= (others => '0');
