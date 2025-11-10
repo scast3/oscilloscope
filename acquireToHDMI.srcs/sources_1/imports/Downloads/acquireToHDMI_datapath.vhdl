@@ -89,6 +89,7 @@ architecture behavior of acquireToHDMI_datapath is
     signal currentRate : STD_LOGIC_VECTOR(31 downto 0);
     signal sampleIndex : STD_LOGIC_VECTOR(31 downto 0);
     
+    
 begin
     hdmiOen <= '1';
     zeros_vec <= (others => '0');
@@ -217,7 +218,7 @@ begin
             dina => an7606data,
             clkb => clk,
             enb => '1',
-            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
+            addrb => data_address(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
             doutb => dout_bram1
         );
 
@@ -245,7 +246,7 @@ begin
             dina => an7606data,
             clkb => clk,
             enb => '1',
-            addrb => L_EDGE(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to do pixelhorz - l_edge
+            addrb => data_address(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to do pixelhorz - l_edge
             doutb => dout_bram2
         );
     

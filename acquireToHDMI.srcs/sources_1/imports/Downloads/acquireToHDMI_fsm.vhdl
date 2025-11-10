@@ -130,7 +130,7 @@ begin
 							else -- full=0
 								if (FORCED_SW = '1') then
 									state <= BEGIN_CONVST;
-								elsif (STORE_SW ='0') then -- full = 0, forced = 0 row
+								elsif (STORE_SW ='0' and TRIGGER_SW = '1') then -- full = 0, forced = 0 row
 									state <= SET_STORE_FLAG;
 								else
 									state <= BEGIN_CONVST;
