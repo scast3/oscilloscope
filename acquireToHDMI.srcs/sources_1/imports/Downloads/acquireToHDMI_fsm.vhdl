@@ -55,16 +55,20 @@ begin
 						end if;
 					when ADC_RST =>
 						if (SHORT_DELAY_DONE_SW = '1') then
-							state <= WAIT_FORCED;
+							if(FORCED_SW = '1') then
+								state <= WAIT_FORCED;
+							else
+								state <= CLEAR_STORE_FLAG;
+							end if;
 						end if;
 					when WAIT_FORCED =>
-					   if(FORCED_SW = '1') then
-						if (SINGLE_SW = '1') then
-							state <= SET_STORE_FLAG;
-						end if;
-					   else -- in trigger mode
-					      state <= CLEAR_STORE_FLAG; 
-					   end if;
+					    if(FORCED_SW = '1') then
+                            if (SINGLE_SW = '1') then
+                                state <= SET_STORE_FLAG;
+                            end if;
+                        else
+                            state <= CLEAR_STORE_FLAG;
+                        end if;
 					when SET_STORE_FLAG =>
 						state <= BEGIN_CONVST;
 					when BEGIN_CONVST =>

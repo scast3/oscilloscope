@@ -277,7 +277,7 @@ begin
             clk => clk,
             resetn => resetn,
             load => cw(TRIG_CH1_WRITE_CW_BIT_INDEX),
-            d => an7606data,
+            d => ch1_trigger_sample1,
             q => ch1_trigger_sample2
         );
     
