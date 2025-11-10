@@ -58,9 +58,13 @@ begin
 							state <= WAIT_FORCED;
 						end if;
 					when WAIT_FORCED =>
+					   if(FORCED_SW = '1') then
 						if (SINGLE_SW = '1') then
 							state <= SET_STORE_FLAG;
 						end if;
+					   else -- in trigger mode
+					      state <= CLEAR_STORE_FLAG; 
+					   end if;
 					when SET_STORE_FLAG =>
 						state <= BEGIN_CONVST;
 					when BEGIN_CONVST =>

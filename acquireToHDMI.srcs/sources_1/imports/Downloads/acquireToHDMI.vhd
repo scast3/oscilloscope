@@ -56,9 +56,9 @@ begin
     ------------------------------------------------------------------------------
     -- Button Process
     ------------------------------------------------------------------------------
-    -- btn(0) = PL_KEY1
+    -- btn(0) = PL_KEY4
     -- btn(1) = PL_KEY3
-    -- btn(2) = PL_KEY4
+    -- btn(2) = ???
     
     btn_process : process(clk, resetn)
     variable prevBtn : std_logic_vector(2 downto 0) := (others => '0');
@@ -71,8 +71,13 @@ begin
             else
                 if (btn(1)='0' and prevBtn(1)='1') then -- falling edge
                     sw(FORCED_MODE_SW_BIT_INDEX) <= not sw(FORCED_MODE_SW_BIT_INDEX); -- toggle forced and trigger
-                elsif (btn(0)='0' and prevBtn(0)='1') then
-                    sw(SINGLE_MODE_SW_BIT_INDEX) <= '1';
+                end if;
+                if (sw(FORCED_MODE_SW_BIT_INDEX) = '1') then -- single trigger only in forced mode
+                    if (btn(0)='0' and prevBtn(0)='1') then
+                        sw(SINGLE_MODE_SW_BIT_INDEX) <= '1';
+                    else
+                        sw(SINGLE_MODE_SW_BIT_INDEX) <= '0';
+                    end if;
                 end if;
                 prevBtn := btn;
             end if;
