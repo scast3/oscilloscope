@@ -5,14 +5,17 @@ create_clock -period 20.000 -waveform {0.000 10.000} [get_ports clk]
 set_property PACKAGE_PIN N15 [get_ports resetn]
 set_property IOSTANDARD LVCMOS33 [get_ports resetn]
 
+# PL KEY4 - when oscope is in forced, this button will cause trigger and fill brams
 set_property PACKAGE_PIN R17 [get_ports btn[0]]
 set_property IOSTANDARD LVCMOS33 [get_ports btn[0]]
 
-set_property PACKAGE_PIN xxx [get_ports btn[1]]
+# PL KEY3 - toggle between forced and trigger mode
+set_property PACKAGE_PIN T17 [get_ports btn[1]]
 set_property IOSTANDARD LVCMOS33 [get_ports btn[1]]
 
-set_property PACKAGE_PIN xxx [get_ports btn[2]]
-set_property IOSTANDARD LVCMOS33 [get_ports btn[2]]
+# don't need btn[2]????
+#set_property PACKAGE_PIN  [get_ports btn[2]]
+#set_property IOSTANDARD LVCMOS33 [get_ports btn[2]]
 
 set_property PACKAGE_PIN M14 [get_ports triggerCh1]
 set_property IOSTANDARD LVCMOS33 [get_ports triggerCh1]
@@ -104,6 +107,27 @@ set_property IOSTANDARD LVCMOS33 [get_ports an7606data[14]]
 
 set_property PACKAGE_PIN T12 [get_ports an7606data[15]]
 set_property IOSTANDARD LVCMOS33 [get_ports an7606data[15]]
+
+### HDMI CONFIG
+
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataN[0]}]
+set_property PACKAGE_PIN V20 [get_ports {tmdsDataP[0]}]
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataP[0]}]
+
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataN[1]}]
+set_property PACKAGE_PIN T20 [get_ports {tmdsDataP[1]}]
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataP[1]}]
+
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataN[2]}]
+set_property PACKAGE_PIN N20 [get_ports {tmdsDataP[2]}]
+set_property IOSTANDARD TMDS_33 [get_ports {tmdsDataP[2]}]
+
+set_property IOSTANDARD TMDS_33 [get_ports tmdsClkN]
+set_property PACKAGE_PIN N18 [get_ports tmdsClkP]
+set_property IOSTANDARD TMDS_33 [get_ports tmdsClkP]
+
+set_property PACKAGE_PIN V16 [get_ports hdmiOen]
+set_property IOSTANDARD LVCMOS33 [get_ports hdmiOen]
 
 
 
