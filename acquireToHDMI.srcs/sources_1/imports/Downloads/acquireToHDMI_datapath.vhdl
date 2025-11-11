@@ -94,7 +94,6 @@ begin
     hdmiOen <= '1';
     zeros_vec <= (others => '0');
     zeros_vec32 <= (others => '0');
-
     reset <= not resetn;
     
     data_address <= pixelHorz - L_EDGE;
