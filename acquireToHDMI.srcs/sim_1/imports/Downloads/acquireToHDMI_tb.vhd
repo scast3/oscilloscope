@@ -86,7 +86,7 @@ BEGIN
         wait for clk_period;
         
         -- commment out the following for forced mode
-        btn_t <= "010";     -- trigger mode
+        -- btn_t <= "010";     -- trigger mode
         
         wait until (an7606reset_t = '1');
         wait until (an7606reset_t = '0');
