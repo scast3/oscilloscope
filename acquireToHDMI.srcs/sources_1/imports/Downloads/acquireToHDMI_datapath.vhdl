@@ -215,7 +215,7 @@ begin
             wea => wea_1_temp,
             addra => wrAddr(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to ensure it's 10 bits not 11
             dina => an7606data,
-            clkb => clk,
+            clkb => videoClk,
             enb => '1',
             addrb => data_address(VIDEO_WIDTH_IN_BITS-2 downto 0), -- same
             doutb => dout_bram1
@@ -243,7 +243,7 @@ begin
             wea => wea_2_temp,
             addra => wrAddr(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to ensure it's 10 bits not 11
             dina => an7606data,
-            clkb => clk,
+            clkb => videoClk,
             enb => '1',
             addrb => data_address(VIDEO_WIDTH_IN_BITS-2 downto 0), -- need to do pixelhorz - l_edge
             doutb => dout_bram2
