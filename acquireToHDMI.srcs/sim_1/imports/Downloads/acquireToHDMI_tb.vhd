@@ -28,10 +28,12 @@ ARCHITECTURE behavior OF acquireToHDMI_tb is
    
    signal tmdsClkN_t, tmdsClkP_t: STD_LOGIC;
    signal hdmiOen_t: STD_LOGIC;
+   signal sampleRate_select_t : STD_LOGIC_VECTOR(1 downto 0);
    
 	
 BEGIN
-
+    sampleRate_select_t <= "00";
+    
     an7606_inst: an7606
         PORT MAP (  clk => clk_t,
 		            an7606data => an7606data_t,
@@ -63,7 +65,11 @@ BEGIN
                    tmdsDataN => open,
                    tmdsClkP => tmdsClkP_t,
                    tmdsClkN => tmdsClkN_t,
-                   hdmiOen => hdmiOen_t); 	
+                   hdmiOen => hdmiOen_t,
+                   triggerVolt16bitSigned => (others => '0'),
+                   ch1Data16bitSLV => open,
+                   ch2Data16bitSLV => open,
+                   sampleRate_select => "00"); 	
            
            
     resetn_t <= '0', '1' after clk_period;		

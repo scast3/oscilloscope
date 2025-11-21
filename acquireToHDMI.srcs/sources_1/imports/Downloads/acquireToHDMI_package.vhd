@@ -93,7 +93,8 @@ component acquireToHDMI_datapath is
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
            tmdsClkN : out STD_LOGIC;
-           hdmiOen:    out STD_LOGIC
+           hdmiOen:    out STD_LOGIC;
+           sampleRate_ctrl : in STD_LOGIC_VECTOR(1 downto 0)
 		   );
 end component;
 
@@ -114,7 +115,10 @@ component acquireToHDMI is
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
            tmdsClkN : out STD_LOGIC;
-           hdmiOen:    out STD_LOGIC		   
+           hdmiOen:    out STD_LOGIC;
+           triggerVolt16bitSigned: in SIGNED(15 downto 0);
+           ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
+           sampleRate_select : in STD_LOGIC_VECTOR(1 downto 0)		   
 		   );	
 end component;	
 

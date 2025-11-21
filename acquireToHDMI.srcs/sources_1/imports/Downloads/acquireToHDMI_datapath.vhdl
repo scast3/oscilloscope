@@ -27,7 +27,9 @@ entity acquireToHDMI_datapath is
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
            tmdsClkN : out STD_LOGIC;
-           hdmiOen:    out STD_LOGIC
+           hdmiOen:    out STD_LOGIC;
+           
+           sampleRate_ctrl : in STD_LOGIC_VECTOR(1 downto 0)
 		   );
 end acquireToHDMI_datapath;
 
@@ -379,7 +381,7 @@ begin
             y1 => HIGH_RATE,
             y2 => LOWEST_RATE,
             y3 => LOW_RATE,
-            s => cw(SAMPLING_RATE_SELECT_CW_BIT_INDEX downto SAMPLING_RATE_SELECT_CW_BIT_INDEX-1),
+            s => sampleRate_ctrl,
             f => currentRate
 
         );

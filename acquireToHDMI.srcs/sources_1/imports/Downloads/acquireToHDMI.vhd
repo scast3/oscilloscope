@@ -24,7 +24,11 @@ entity acquireToHDMI is
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
            tmdsClkN : out STD_LOGIC;
-           hdmiOen:    out STD_LOGIC		   
+           hdmiOen:    out STD_LOGIC;
+           
+           triggerVolt16bitSigned: in SIGNED(15 downto 0);
+           ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
+           sampleRate_select : in STD_LOGIC_VECTOR(1 downto 0)
 		   );		   
 end acquireToHDMI;
 
@@ -39,7 +43,7 @@ architecture behavior of acquireToHDMI is
 begin
     temp_resetn <= btn(2) or resetn;
     hdmiOen <= '1';
-    triggerVolts <= (others => '0');
+    triggerVolts <= triggerVolt16bitSigned;
     triggerTimePix <= (others => '0');
 
     conversionPlusReadoutTime <= cw(CONVERSION_PLUS_READOUT_CW_BIT_INDEX);
@@ -102,13 +106,14 @@ begin
             an7606data => an7606data,
             triggerVolt16bitSigned => triggerVolts,
             triggerTimePixel => triggerTimePix,
-            ch1Data16bitSLV => open,
-            ch2Data16bitSLV => open,
+            ch1Data16bitSLV => ch1Data16bitSLV,
+            ch2Data16bitSLV => ch2Data16bitSLV,
             tmdsDataP => tmdsDataP,
             tmdsDataN => tmdsDataN,
             tmdsClkP => tmdsClkP,
             tmdsClkN => tmdsClkN,
-            hdmiOen => hdmiOen
+            hdmiOen => hdmiOen,
+            sampleRate_ctrl => sampleRate_select
 	);
                 
 	control_inst: acquireToHDMI_fsm 
