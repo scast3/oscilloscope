@@ -10,9 +10,10 @@ END acquireToHDMI_tb;
 ARCHITECTURE behavior OF acquireToHDMI_tb is
 
    --Inputs
-   signal clk_t : STD_LOGIC;
-   signal resetn_t : STD_LOGIC;   
-   signal btn_t : STD_LOGIC_VECTOR (2 downto 0);
+   signal clk_t : STD_LOGIC; 
+   signal resetn_t : STD_LOGIC; 
+   signal btn_t : STD_LOGIC_VECTOR(2 downto 0);
+   signal ch1enb_t, ch2enb_t : STD_LOGIC;
    
    signal triggerCh1_t, triggerCh2_t: STD_LOGIC;		   
    signal conversionPlusReadoutTime_t: STD_LOGIC;
@@ -47,12 +48,16 @@ BEGIN
     uut: acquireToHDMI 
         PORT MAP (  clk => clk_t,
                     resetn => resetn_t,
-                    btn => btn_t,
+                    single_mode => btn_t(0),
+                    forced_mode => btn_t(1),
                     
                     triggerCh1 => triggerCh1_t,
                     triggerCh2 => triggerCh2_t,		   
 		            conversionPlusReadoutTime => conversionPlusReadoutTime_t,
 		            sampleTimerRollover => sampleTimerRollover_t,
+		            
+		            ch1enb => '1',
+		            ch2enb => '1',
 		   
 		            an7606data => an7606data_t,
 		            an7606convst => an7606convst_t,
@@ -67,6 +72,7 @@ BEGIN
                    tmdsClkN => tmdsClkN_t,
                    hdmiOen => hdmiOen_t,
                    triggerVolt16bitSigned => (others => '0'),
+                   triggerTime => (others => '0'),
                    ch1Data16bitSLV => open,
                    ch2Data16bitSLV => open,
                    sampleRate_select => "00"); 	

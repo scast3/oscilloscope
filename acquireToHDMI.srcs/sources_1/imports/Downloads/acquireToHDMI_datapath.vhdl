@@ -23,6 +23,8 @@ entity acquireToHDMI_datapath is
 		   triggerTimePixel: in STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
 		   ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
 		   
+		   ch1enb, ch2enb : in std_logic;
+		   
 		   tmdsDataP : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
@@ -143,9 +145,9 @@ begin
             triggerTime => trigTime,
             triggerVolt => trigVscr,
             ch1 => ch1,
-            ch1enb => '1',
+            ch1enb => ch1enb,
             ch2 => ch2,
-            ch2enb => '1',
+            ch2enb => ch2enb,
             red => red,
             green => green,
             blue => blue

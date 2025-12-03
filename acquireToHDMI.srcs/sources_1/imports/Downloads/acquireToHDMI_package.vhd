@@ -89,6 +89,8 @@ component acquireToHDMI_datapath is
 		   triggerTimePixel: in STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0);
 		   ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
 		   
+		   ch1enb, ch2enb : in std_logic;
+		   
 		   tmdsDataP : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsDataN : out  STD_LOGIC_VECTOR (2 downto 0);
            tmdsClkP : out STD_LOGIC;
@@ -101,10 +103,15 @@ end component;
 component acquireToHDMI is
     PORT ( clk : in  STD_LOGIC;
            resetn : in  STD_LOGIC;
-		   btn: in	STD_LOGIC_VECTOR(2 downto 0);
-		   triggerCh1, triggerCh2: out STD_LOGIC;		   
-		   conversionPlusReadoutTime: out STD_LOGIC;
-		   sampleTimerRollover: out STD_LOGIC;
+           
+		   single_mode : in  STD_LOGIC; -- control reg
+		   forced_mode : in  STD_LOGIC; -- control reg
+		   ch1enb, ch2enb : in STD_LOGIC; -- control reg
+		   sampleRate_select : in STD_LOGIC_VECTOR(1 downto 0); -- control reg
+		   
+		   triggerCh1, triggerCh2: out STD_LOGIC; -- status reg		   
+		   conversionPlusReadoutTime: out STD_LOGIC; -- status reg
+		   sampleTimerRollover: out STD_LOGIC; -- status reg
 		   
 		   an7606data: in STD_LOGIC_VECTOR(15 downto 0);
 		   an7606convst, an7606cs, an7606rd, an7606reset: out STD_LOGIC;
@@ -116,9 +123,10 @@ component acquireToHDMI is
            tmdsClkP : out STD_LOGIC;
            tmdsClkN : out STD_LOGIC;
            hdmiOen:    out STD_LOGIC;
-           triggerVolt16bitSigned: in SIGNED(15 downto 0);
-           ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0);
-           sampleRate_select : in STD_LOGIC_VECTOR(1 downto 0)		   
+           
+           triggerVolt16bitSigned: in SIGNED(15 downto 0); -- reg1
+           triggerTime: in STD_LOGIC_VECTOR(VIDEO_WIDTH_IN_BITS-1 downto 0); -- reg2
+           ch1Data16bitSLV, ch2Data16bitSLV: out STD_LOGIC_VECTOR(15 downto 0) --reg 3 and 4		   
 		   );	
 end component;	
 
