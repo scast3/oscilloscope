@@ -54,9 +54,16 @@ TmrCntrSetup SettingsTable[NUM_TTC0_INDEX] = {
 #define SIN_LUT_LENGTH 64
 #define SINC_LUT_LENGTH 64
 
+typedef enum {
+    WAVE_SINE = 0,
+    WAVE_SINC = 1
+} WaveformType;
+
 u16 phaseIncrement = 0;
 u16 dutyCycle = 0;
 u8 generateWave = FALSE;
+WaveformType currentWaveform = WAVE_SINE;
+
 u8 sinLut[SIN_LUT_LENGTH + 1] = {128, 140, 152, 165, 176, 188, 198, 208, 218, 226, 234, 240, 245, 250, 253, 254, 255, 254, 253, 250, 245, 240, 234, 226, 218, 208, 198, 188, 176, 165, 152, 140, 128, 115, 103, 90, 79, 67, 57, 47, 37, 29, 21, 15, 10, 5, 2, 1, 0, 1, 2, 5, 10, 15, 21, 29, 37, 47, 57, 67, 79, 90, 103, 115, 128};
 u8 sincLut[SINC_LUT_LENGTH + 1] = {128, 124, 120, 118, 116, 117, 119, 123, 128, 133, 138, 142, 
     144, 144, 141, 135, 128, 120, 112, 105, 101, 101, 105, 114, 128, 146, 166, 188, 209, 228, 
@@ -95,6 +102,7 @@ int main()
        Forced mode bit = bit[1]
        Trigger mode means that bit[1] should be 0
     */
+    slv3 &= ~(1 << 6); // default reset bit = 0 (not resetting)
     slv3 &= ~(1 << 1); // default forced bit = 0 (trigger mode)
     slv3 &= ~(1 << 0); // default single bit = 0
     FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, slv3);
@@ -121,25 +129,39 @@ int main()
             printf("Disable the Enhanced PWM module by pressing PL_KEY4\r\n");
             printf("PWM Counter       %u \r\n", ENHANCEDPWM_AXI_mReadReg(XPAR_ENHANCEDPWM_AXI_0_BASEADDR , PWM_COUNT_OFFSET));
             printf("Duty Cycle = %d\r\n", dutyCycle);
+            printf("Current Waveform: %s\r\n", currentWaveform == WAVE_SINE ? "SINE" : "SINC");
+            printf("Wave Generation: %s\r\n", generateWave ? "ON" : "OFF");
             printf("--------------------------\r\n");
             printf("?: help menu\r\n");
+            printf("r: Universal reset\r\n");
             printf("d: Enter a duty cycle.\r\n");
             printf("f: Flush terminal\r\n");
             printf("0: read enhanced PWM registers\r\n");
             printf("1: read ttc0 index 0 registers\r\n");
-            printf("3: print oscilloscope registers\r\n");
             printf("a: Toggle Ch1 on/off\r\n");
             printf("b: Toggle Ch2 on/off\r\n");
-            printf("s: Sin Wave\r\n");
-            printf("P: Change frequency\r\n");
+            printf("s: Toggle wave generation on/off\r\n");
+            printf("w: Select waveform (sine or sinc)\r\n");
             printf("S: Serial Information\r\n");
             printf("t: Trigger mode\r\n");
             printf("n: Button - acquire\r\n");
             printf("+: Increase voltage trigger\r\n");
             printf("-: Decrease voltage trigger\r\n");
-            printf("0: Reset voltage trigger back to 0\r\n");
+            printf("v: Reset voltage trigger back to 0\r\n");
             break;
 
+        case 'r':
+            printf("Resetting....\r\n");
+            #define RST_MASK (1 << 6)
+            u32 slv3_reset_val = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET);
+            u32 assert_reset = slv3_reset_val | RST_MASK;
+            FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, assert_reset);
+
+            u32 deassert_reset = assert_reset & (~RST_MASK);
+            FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, deassert_reset);
+
+            printf("Reset pulse complete.\r\n");
+            break;
 
             /*-------------------------------------------------
              * Tell the counter to count up once
@@ -168,17 +190,48 @@ int main()
              * Toggle wave generation
              *-------------------------------------------------
              */
+    
         case 's':
 
             if (generateWave == TRUE) {
                 generateWave = FALSE;
                 printf("Wave off\r\n");
+                // Setting to midpoint DC when wave off
+                ENHANCEDPWM_AXI_mWriteReg(XPAR_ENHANCEDPWM_AXI_0_BASEADDR , DUTY_CYCLE_OFFSET, 128);
             } else {
                 //phaseIncrement += 10;
                 generateWave = TRUE;
+                printf("Waveform: %s\r\n", currentWaveform == WAVE_SINE ? "SINE" : "SINC");
                 printf("Wave on, phase accumulator = %d\r\n",phaseIncrement);
             }
 
+            break;
+
+        case 'w':
+            printf("Select waveform:\r\n");
+            printf("  1: Sine wave\r\n");
+            printf("  2: Sinc wave\r\n");
+            printf("Enter selection: ");
+            
+            c = XUartPs_RecvByte(USART_BASEADDR);
+            putchar(c);
+            printf("\r\n");
+            
+            if (c == '1') {
+                currentWaveform = WAVE_SINE;
+                printf("Waveform set to SINE\r\n");
+            } else if (c == '2') {
+                currentWaveform = WAVE_SINC;
+                printf("Waveform set to SINC\r\n");
+            } else {
+                printf("Invalid char\r\n");
+            }
+            
+            if (generateWave == TRUE) {
+                printf("changing waveform...\r\n");
+            } else {
+                printf("press 's' to see change\r\n");
+            }
             break;
 
             /*-------------------------------------------------
@@ -194,12 +247,6 @@ int main()
         case '2':
             printf("Bits \r\n");
             //printf("M[BASEADDR + %d] = %u\r\n",4*c,ENHANCEDPWM_AXI_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR , ));
-            break;
-        case '3':
-            printf("Oscope Control registers \r\n");
-            for (c=0; c<10; c++) {
-                printf("M[BASEADDR + %d] = %u\r\n",4*c,ENHANCEDPWM_AXI_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR , 4*c));
-            }
             break;
             /*-------------------------------------------------
              * Read the AXI register associated with the TTC0_0 component
@@ -540,12 +587,20 @@ static void Ttc0IsrHander(void *CallBackRef, u32 StatusEvent)
 {
 
     static u16 phaseAccumulator = 0;
-    u16 sinLutIndex = 0;
+    u16 lutIndex = 0;
+    u8 dutyCycleValue = 128;
 
     // Do ISR stuff here
     if (generateWave == TRUE) {
         phaseAccumulator += phaseIncrement;
-        sinLutIndex = (phaseAccumulator >> 10);
-        ENHANCEDPWM_AXI_mWriteReg(XPAR_ENHANCEDPWM_AXI_0_BASEADDR , DUTY_CYCLE_OFFSET, sinLut[sinLutIndex]);
+        lutIndex = (phaseAccumulator >> 10);
+        //lutIndex = (phaseAccumulator >> 10) & 0x3F;  // Mask to 0-63 range
+
+        if (currentWaveform == WAVE_SINE) {
+            dutyCycleValue = sinLut[lutIndex];
+        } else {
+            dutyCycleValue = sincLut[lutIndex];
+        }
+        ENHANCEDPWM_AXI_mWriteReg(XPAR_ENHANCEDPWM_AXI_0_BASEADDR , DUTY_CYCLE_OFFSET, dutyCycleValue);
     }
 }
