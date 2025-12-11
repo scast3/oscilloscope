@@ -4,6 +4,7 @@
 * custom enhancedPwm IP and the Zynq's TTC (Triple Timer Counter) for interrupts.
 *
 ******************************************************************************/
+#include <stdint.h>
 #include <stdio.h>
 #include "xil_printf.h"
 #include "xparameters.h"
@@ -102,6 +103,7 @@ int main()
        Forced mode bit = bit[1]
        Trigger mode means that bit[1] should be 0
     */
+    slv3 &= ~(1 << 7); // default flag reg clear bit should be =0
     slv3 &= ~(1 << 6); // default reset bit = 0 (not resetting)
     slv3 &= ~(1 << 1); // default forced bit = 0 (trigger mode)
     slv3 &= ~(1 << 0); // default single bit = 0
@@ -148,6 +150,7 @@ int main()
             printf("+: Increase voltage trigger\r\n");
             printf("-: Decrease voltage trigger\r\n");
             printf("v: Reset voltage trigger back to 0\r\n");
+            printf("u: Display last 64 values of waveform\r\n");
             break;
 
         case 'r':
@@ -403,6 +406,59 @@ int main()
             );
 
             printf("Trigger Voltage set to 0\r\n");
+        break;
+        case 'u':
+            printf("Display final 64 samples\r\n");
+            #define FLAG_CLEAR_BIT (7)
+            #define FLAG_Q_BIT (4) 
+            #define FLAG_Q_MASK (1 << FLAG_Q_BIT) // slv reg 2 (read from)
+            #define FLAG_CLEAR_MASK (1 << FLAG_CLEAR_BIT) // slv reg 3 (write to)
+
+            #define SINGLE_MODE_MASK (1 << 0)
+            u32 reg3_config = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET);
+            FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, reg3_config | SINGLE_MODE_MASK);
+
+            u32 reg3_initial = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET);
+            FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, reg3_initial & (~FLAG_CLEAR_MASK));
+
+
+            for (int i = 0; i < 64; i++) {
+                
+                // wait for 1 falg to be set
+                uint32_t current_q_bit;
+                printf("Current Q: %u \r\n", current_q_bit);
+                u32 slv2_flag_read;
+                do {
+                    slv2_flag_read = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG2_OFFSET);
+                    //current_q_bit = (slv2_flag_read & FLAG_Q_MASK); // Check if Q is set to 1
+                } while ((slv2_flag_read & FLAG_Q_MASK) == 0); // Loop until the bit is 1
+                printf("Exited do while loop, bit should be 1. Q bit: %d\r\n", current_q_bit);
+
+                // once Q=1
+                u32 ch1data_32bit = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG0_OFFSET);
+                printf("ch1[%d]: %lu\r\n", i, (unsigned long)ch1data_32bit);
+
+                // clear flag - set to high then to low 
+                
+                u32 reg3_set_clear = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET);
+                FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, reg3_set_clear | FLAG_CLEAR_MASK);
+                u32 reg3_clear_done = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET);
+                FINAL_OSCOPE_mWriteReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG3_OFFSET, reg3_clear_done & (~FLAG_CLEAR_MASK));
+
+            }
+            printf("64 samples read complete.\r\n");
+            break;
+        case 'o':
+            #define FLAG_Q_MASK_2 (1 << 4)
+        for (int i = 0; i < 64; i++) {
+                
+                // wait for 1 falg to be set
+                u32 slv2_flag_read_2 = FINAL_OSCOPE_mReadReg(XPAR_FINAL_OSCOPE_0_BASEADDR, FINAL_OSCOPE_S00_AXI_SLV_REG2_OFFSET);
+                uint32_t current_q_bit_2;
+                current_q_bit_2 = (slv2_flag_read_2 & FLAG_Q_MASK_2);
+                printf("Current Q: %u \r\n", current_q_bit_2);
+
+            }
         break;
         default:
             printf("unrecognized character: %c\r\n",c);
