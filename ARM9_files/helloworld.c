@@ -449,6 +449,7 @@ int main()
             printf("64 samples read complete.\r\n");
             break;
         case 'o':
+            
             #define FLAG_Q_MASK_2 (1 << 4)
         for (int i = 0; i < 64; i++) {
                 
